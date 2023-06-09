@@ -1,0 +1,59 @@
+In Normal Binary Tree finding Node -> Time complexity is O(n)
+But Binary search Tree is having time complexity of O(H) -> (H is the height of the tree)
+
+what is Binary Tree ->
+A Tree having Maximum at Most 2 children
+Left subtree Nodes must be less than root
+Right subtree Nodes must be greater than root
+Left and Right subtree are also BST with no Duplicates
+
+Special Property ->
+In-Order traversal of BST gives a sorted sequence / increasing Order of sorted sequence [1,2,3,4,5,6]
+
+BST search ->
+BST makes the search optimization / makes the search efficient
+Worst case complexity : if our tree is balanced and node exist at the leaf -> Time complexity is O(H) ; where H is the height of the tree
+if tree is unbalanced and growing linearly / skewed trees : Time complexity is O(n)
+
+Startergy ->
+Most Problems are sloved using recurssion i.e by dividing into subproblems and making recurssive calls on subtree
+
+Build a BST ->
+
+Search a BST -> if key = some_integer
+root > key -> left subtree keep doing until root == key when root is equal to tree then return true;
+if the key doesnot exist in the tree we found null then we have to return false
+In search also time complexity is also O(H)
+
+
+Delete a Node ->
+cases : 
+1) No child (leaf node)
+2) one child
+3) Two children
+
+1) No child (leaf Node) -> delete the node and return Null to parent
+
+2) one child -> delete the node and replace with child node
+
+3)Two childern ->
+repalce value with inorder successor
+delete the node for inorder successor
+
+inorder successor always has 0 or 1 child
+
+In BST inorder successor will be always left most in right subtree
+or/ inother words (In right subtree left most node is our pre order successor)
+
+
+
+
+
+
+
+
+
+
+
+
+
