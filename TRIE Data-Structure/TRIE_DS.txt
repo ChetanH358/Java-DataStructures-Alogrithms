@@ -1,0 +1,85 @@
+   ----------->>>>> TRIE Data-Structure <<<<<------------
+   other names for TRIE Data Structure are : prefix tree, digital search tree,retrievel tree
+   TRIE is used to retrieve data for example given a dictonary need to search a word exist in it or not
+   TRIE looks like tree data Structure
+   prefix of the word "apple" and "app" are : a/ap/app
+   prefix of the word "there" and "their" are : the (common word)
+   
+   [ TRIE is also a k-ary tree ]
+   we know that binary tree can have atmost 2 children where as K-ary tree is such a tree which has many children
+   
+   worst case of BST is skewed BST which has time complexity of O(h) where h -> height and height=total no of nodes
+   AVL tree is balanced BST whose searching time complexity is h = logn
+   here both AVL and TRIE are treated as equal time complexity but in TRIE time complexity is much more better
+   Time complexity of TRIE is O(L) where L=length of the word
+   
+   properties of the TRIE :
+   1) search is fast 
+   2) root is an empty node
+   3) prefix is not repeated
+   4) we write end of the word
+   
+   class Node {
+       Node[] children; //26
+       boolean endofWord;
+   }
+   
+   >>>>>>>>>>>> Insert in Trie :
+   Time complexity is O(l) where l is length of the string
+   words[] = {"the","a","there","their","any"}
+   check weather the picked character is exist or not 
+   if exist in children -> not do anything
+   if does not exist -> create a new node
+   
+   example: the
+   1)check weather t exist in next level or not ,if not add t into the root and go to next character
+   2)check weatehr h exist in next level or not while adding h check weather h exist in t node[] or not if not then add into the node[] 
+   3)check weatehr h exist in next level or not while adding e check weather e exist in t node[] or not, then check weather e exist in h node[]        or not if not then add into the h
+   4)if we encounter the end of the letter we make End_Of_word true;
+   
+   psudocode :
+   for(int i=0 to word.length())
+    index = word.charAt(i) - 'a'
+    if(root.children[index] == null){
+       new node
+    }else{
+       root = root.children[index]
+    }
+   
+    if(i == word.length()-1){
+       node.End_Of_word = true
+    }
+   
+   >>>>>>>>>>> search in TRIE :
+   Time Complexity is O(L) : where L-> is the length of the word
+   given key = "their" , key = "thor" , key = "an"
+    if word is fully found at the end of the word we return true else we return false
+   
+    root
+    for(int i=0 to key.length()){
+       index = key.charAt-'a';
+       if(root.children[index] == null){
+           return false
+       }
+       if(i==key.length()-1 && root.children[index].End_Of_word == false){
+           return false
+       }
+    }
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
