@@ -1,0 +1,143 @@
+    >>> Cycle-Detection (In directed graph)
+        From the picture if we start from 0 -> 2 -> 3 end or 0 -> 1 -> 3 -> end
+        our traversing is going to end at 3 , so here we return false
+
+        From the diagram :
+        > 0 will visit first and then check for 1 here parent of 0 -> -1
+        > it serach in it's neighbours 1 will visited here parent of 1 -> 0
+        > from 0 after 1 it visit 2 here parent of 2 -> 0
+        > it search it's neighbours 3 will be visited and parent of 3 -> 2
+        now 3 try to visit 0 although 0 is not parent of 2 , so here we can say that cycle exist
+        
+
+
+    Approach : Modifying DFS :
+        > Tracking the visited[] 
+        > Recurssion stack -> if already an element exist in our Recurssion stack and visited but we are trying to access 
+          that in such case cycle exist
+        
+        psudocode :
+            we shall create a stack explictly but searching will be O(n) for which we need to pop all the elements so 
+            better create array keeping track of all ongoing elements we are creating boolean type Recurssion[]
+
+            dfs(graph,visited[],current,rec[]){
+                visited[current] = true
+                recursive[current] = true
+                for(int i = 0 to graph[current].size()){
+                    Edge e = graph[current].get(i)
+                    // cycle condition
+                    if(rec[e.destination] == true){
+                        return true
+                    }
+                    else if(!vis[e.destination]){
+                        // here we are check weather neighbour has cycle or not ,if true then return true
+                        boolean does_cycle_exist = dfs(graph,vis,e.destination,rec[])
+                        if(does_cycle_exist){
+                            return true;
+                        }
+                    }
+                }
+                // while returning back Node 3 will be popped out of the stack so we make false in our Recurssion array
+                rec[current] = false
+            }
+
+    ********************************************************************************************************************************
+
+
+    >>>> Topoligical Sorting :
+    >Topoligical sorting work on Directed-Acyclic-Graph(DAG) is a directed graph with no cycles
+    >Topological sorting is used only for DAG's (not for NON-DAG's)
+    >It is a linear order of vertices such that every directed edge u->v ,the vertex u comes before v in the order
+
+        u      v    O/p -> of Topoligical sorting first is : a b c d
+        a  ->  b
+        b  ->  c
+        a  ->  c
+        c  ->  d
+
+    Analogy :
+    Dependency : one value/action is depeneding on another value/action 
+
+    Action 1 : buy laptop
+    Action 2 : install OS
+    Action 3 : install code editor
+    Action 4 : install java
+    Action 5 : write code
+
+    Here without laptop we cannot write java code and without operating system we cannot install IDE 
+    so every thing must be in chronological order O/p : 1 2 3 4 5 <- topological sorted order
+
+    we are modifying DFS to get the sorted order of given graph and also here we are 
+    using stack data-structure
+    
+    Time complexity : equal to DFS -> O(V+E)
+    psudocode :
+    topological_sort(graph,vis[],curr,stack){
+        vis[curr] = true
+        for(int i=0 to graph[curr].size()){
+            Edge e = graph[curr].get(i)
+            if(!vis[e.dest]){
+                topological_sort(graph,vis,e.dest,stack)
+            }
+        }
+        stack.push(curr)
+    }
+
+    In main(){
+        // for topological sort we want all nodes to be visited
+        for(int i=0 to v){
+            if(vis[i] == false){
+                topological_sort(...............)
+            }
+        }
+        stack.pop() -> print
+    }
+
+    **************************************************************************************************************************
+
+    Cycle in Graphs (concept in detail)
+        In undirected graph we can detect cycle by using DFS, BFS and DSU (Disjoint set union)
+        In directed graph we can detect cycle by using DFS, BFS, topological sorting(kaln's alogorithm)
+        
+    Un-directed graph :
+        modified DFS -> Recurssion
+
+    3-types of neighbours exist 
+    1 -> visited[n] = true with no parent => in this case cycle(true)
+    2 -> visited[n] = true with parent exist => in this case do nothing
+    3 -> visited[n] = false neither visited nor parent => in this case visit the nodes 
+    if it return's true than return true
+
+    undirected graph :
+        psudocode :
+        dfs(graph,vis[],curr,parent){
+            vis[curr] = true
+            for(int i = 0 to graph[curr].size()){
+                Edge e = graph[curr].get(i)
+                if(vis[e.destination] == true && parent!=e.destination){
+                    return false
+                }
+                if(!vis[e.destination]){
+                    if(dfs(graph,vis[],curr,parent) == true){
+                        return true;
+                    }
+                }
+            }
+        }
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+

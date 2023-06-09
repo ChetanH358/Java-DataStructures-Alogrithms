@@ -1,0 +1,257 @@
+    >>>> Shortest_Path_Algoritham ---->>>
+        1) Dijkstra's Algorithm
+        objective : shortest distance from the source to all vertices
+        > Dijkstra's Algorithm work's on BFS(Breadth First Search)
+        > In Dijkstra Algorithm we use Queue -> but instead of normal Queue here we are using priority Queue
+        > priority Queue arranges elements based on priority wise , ex : 0 -> has highest priority where as 10 has lowest priority
+          highest priority element is removed First
+
+        >relaxation technique :
+            after traversing from n nodes we got condition (as shown in daiagram) 
+            here  , dist[v] = 5 <-- source to v
+                    dist[u] = 1 <-- source to upto
+                here already distance of node(v) exist but from different node came to the same node where now it needs to be rewritten 
+                as the second path got is less than then the existing path 
+
+        psudocode;
+        while(!pq.isEmpty()){
+            pair curr = pq.remove();
+            if(!vis[curr-node]){
+                vis[curr-node] = true
+            }
+            for(int i = 0 to .......){
+                Edge e = graph[curr].get(i)
+                u -> e.source
+                v -> e.destination
+
+                if(distance[u] + e.weight < distance[v]){
+                    distance[v] = distance[u] + e.weight
+                    pq.add(v,distance[v])
+                }
+            }
+        }
+
+        Time complexity of Dijkstra Algorithm is : O(E + ElogV) -> where v:vertices
+        For question from the picture the O/p -> 0 2 3 8 6 9 
+
+        code/logic of Algorithm is correct but loop hole in the code i.e : eventhough we
+        reached upto distance 8 we came back and added 6(which is of no use , as we 
+        travelled from 6 to reach 8) into the array
+
+    >>>> Bellman Ford Algorithm ---->>>
+    for Dijkstra's Algorithm we know the weight of the edges is +ve and Dijkstra's Algorithm fails if we have negative values
+
+    in Bellman ford algorithm although if cycle exist also we get the shortest path
+    Bellman ford algorithm is applicable for both positive or negative values
+    Bellman ford algorithm is type of Dynamic Programming 
+    Dijkstra algorithm is having less time compelxity as compared to Bellman ford 
+    usage : for +ve values Dijkstra and for -ve values Bellman
+
+    approach :
+    perform this operation v-1 times 
+    run a loop for all nodes and perfrom relaxation operation
+        for all edges (u,v)
+        if dist[u] + wt(u,v) < dist[v]
+        dist[v] = dist[u] + wt(u,v)
+
+    dist[] -> 0 ,infinite, infinite, infinite, infinite
+    1-st ->   0 ,    2   ,    -2   ,    0    ,     4 
+    2-nd ->   0 ,    2   ,    -2   ,    0    ,     4 
+    3-rd ->   0 ,    2   ,    -2   ,    0    ,     4  
+    4-th ->   0 ,    2   ,    -2   ,    0    ,     4 
+
+    Bellman ford algorithm doesn't work for negative weight cycles
+    It won't possible to calculate shortest path if negative weight cycle exist
+
+    >>>> Minimum Spanning Tree ---->>>>
+    A minimum spannnig tree (MST) or minimum spannig tree is subset of the edges of connected,edge 
+    weighted undirected graph that connectes all the vertices together, without any cycles and 
+    with the minimum possible total edge weight
+
+    In-other words a graph can have multiple spanning trees but ,the graph with minimum edge-weight is 
+    to be called as Minimum Spanning Tree
+        
+    MST  -> undirected, connected, weighted 
+    MST -> nodes+connectd , no cycle exist , edge weight (min)
+
+    >>> Prim's Algorithm :----
+    MST Set concept :
+        Approach :
+        1) creating 2 sets -> MST set and Non-MST set
+        2) from Non-MST set we always pick minmimum cost edge and put into MST Set
+        3) from MST set we check with non-MST set which are the minimum cost edge that are coming
+        Answer for the question is 0+15+10+30 = 55
+
+        for min cost -> priority Queue 
+        Time Complexity is O(E logE)
+
+        create a priority queue 
+        pq.add(pair(0,0))
+        boolean vis[] = false
+        while(!pq.isEmpty()){
+            pair current = pq.remove();
+            if(!vis[curr.node]){
+                vis[curr.node] = true
+                cost += curr.cost
+                for(int i = 0 ; i<graph[curr.node].size();i++){
+                    Edge e = graph[curr.node].get(i)
+                    if(!vis[e.dest]){
+                        pq.add(e.dest,e.weight);
+                    }
+                }
+            }
+        }
+
+    >>> Strongly Connected Component ---->>>>>
+        SCC is a component in which we can reach every vertex of the component form every 
+        other vertex in that component.
+        > from SSC-1 we conclude that if start form node 0 we can go to 2 and 1
+        > if start form node 2 we can go to 1 and 0
+        > if start form node 1 we can go to 0 and 2
+        > we can go from 0 to 3 but cannot start from 3 to zero
+        > we can go from 3 to 4 but cannot go from 4 to 3
+
+    need to print the SSC of the individual nodes ->
+        0 1 2
+        3
+        4
+    
+    6 5 4 scc
+    2 1 0 scc
+
+    Insted of using normal DFS use Reverse DFS :
+
+    Kosaraju's Algorithm : Total Time complexity is 0(V+E)
+        steps :
+        1-st) get nodes in stack -> Time complexity 0(V+E) (topological sorting) -> stack |1|2|4|3|0|
+        2-nd) Transpose the graph -> Time complexity 0(V+E) Time complexity 0(V+E) (revrese the edges) -> form the diagram 
+        3-rd) Do DFS according to stack nodes on the transpose Graph (2-nd diagram) ->  Time complexity 0(V+E)
+        O/p -> 0 1 2 
+               3
+               4
+
+    >>> Bridge in Graph --->>>
+        bridge is an edge on deleting that edge our graph is splitted into two/multiple parts
+        it is used for undirected graphs.
+        Bridge is an edge, on deleting it increses the graph's number of connectd components
+        >> Tarjan's Algorithm :
+            we can find bridges in graph , articulation points , Strongly connected components , topological sorting
+        concept used here is discovery time for all neighbour's
+        * discovery_time[] = int[vertices]
+        * lowest_discovery_time[] = int[vertices]
+
+    example : for discovering 0-th node took 1-sec , for discovering 1-th node took 2-sec ..... stored in discovery_time[]
+    and lowest discover_time[] is used to store 
+
+    there is a edge an u -> v , where u is connected many number of nodes and v is also connected by so many number of nodes
+    discover_time[u] < discover_time[v] ,here u -> v will connect a single edge
+
+    lowest_discovery_time -> lowest time where in a neighbour is discovered
+
+    psudocode :
+    DFS is used here ;
+    we will keep track of the parent,discover_time,lowest_discovery_time.
+
+        visited[current] = true;
+        discover_time[current] = low[current] = ++time
+        for(int i = 0 to neighbour){
+            edge e 
+            1] if it is parent node then continue
+            2] !vis[e.destination] -> we will perform DFS
+                // a node which comes return after visiting its child node in that case need to update the lowest time
+               low[curr] = min(low[curr],low[neighbour])
+               // this is the bridge condition 
+               if(discover_time[curr] < low[neighbour]){
+                    print(curr " -> " neighbour) // printing the bridge
+               }
+            3] vis[e.dest] = true -> update the lowest
+                low[curr] = min(low[curr],discover_time[neighbour])
+                the above line  low[curr] = min(low[curr],discover_time[neighbour]) <-- is studied in detail 
+                in articulation chapter
+        }
+
+    >>> Articulation Point ----->>>>>>
+        A vertex in an undirected connected graph is an articulation point (or cur vertex) if removing it (and edges through it ) disconnect's the Graph
+        
+        Tarjan's Algorithm is modified ->
+        Ascestor -> a node A that was discovered before current node in DFS ,is the ancestor of current
+        in the example picture if we are travelling form A -> F , B is the node it should visit  so B will become ancestor node of F
+
+        DFS 
+        discover_time dt[] -> when did our first-time the node got discovered
+        lowest_discovery_time low[] -> from all possible reachable nodes from the current node
+            there will be cuurent node which is connected by n no of nodes , current nodes will be having some discover_time and if we get a node
+            which has less discover_time including current it will be get stored in lowest_discovery_time
+        
+        Approach :
+        DFS -> node to declare as articulation point we have 2 cases :
+            1) corner nodes whose parent = -1 (start of DFS) and children > 1 and all children must be disconnected 
+            2) parent != 1 will have 2 cases ->
+                2.1) u -> v one way exist (single root) , dt[u] < low[v]
+                2.2) cylce condition -> dt[u] = low[v] => dt[curr] = low[neighbour]
+            On combining both ( dt[curr] <= low[neighbour] && par != -1 ) -> then Articulation point will become current node
+
+
+        child node condition's ->
+        A -> B , if A is the parent and B is the neighbour , here we ignore because A can be parent or B can also be parent 
+        A -> C , if C is the neighbour which is visited , backedge then it came to be called as Ancestor  node
+        A -> E , if E is the unvisited node then it will be came to be called as child node
+
+        psudocode : In out put 3 and 0 are the articulation point  ->> Time complexity of the code is O(V+E)
+        vis[curr] = true
+        dt[curr] = low[curr] = ++time
+        children = 0
+
+        for(neighbour){
+            Edge e -> (source to destionation)
+            if (neighbour == parent){
+                ignore
+            }
+            if(neighbour == visited){
+                low[curr] = min(low[curr] , dt[neighbour])
+            }
+            if(neighbour unvisited){
+                apply dfs
+                low[curr] = min(low[curr] ,low[neighbour])
+            }
+            if(dt[curr] <= low[neigh] && parent != -1){
+                curr -> AP
+                child++
+            }
+        }
+        //corner case for the starting node ->
+        if(par = -1 && children > 1){
+            curr -> is Articulation Point
+        }
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
